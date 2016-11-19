@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 public class PhotoFragment extends android.support.v4.app.Fragment {
     ImageView imageView;
     ImageView imageDots;
+
     public static PhotoFragment newInstance(Bundle arguments) {
         PhotoFragment fragment = new PhotoFragment();
         if (arguments != null) {
@@ -29,21 +30,23 @@ public class PhotoFragment extends android.support.v4.app.Fragment {
         return fragment;
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_fragment, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.single_photo_of_an_album);
         imageDots = (ImageView) rootView.findViewById(R.id.dots_fragment);
-        imageDots.setOnClickListener(new View.OnClickListener(){
+        imageDots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopupMenu(imageDots);
             }
         });
-        Glide.with(getActivity()).load(getArguments().getString("photoId")).into(imageView);
+        Glide.with(getActivity()).load(getArguments().getString("photoUrl")).into(imageView);
         return rootView;
     }
+
     /**
      * Showing popup menu when tapping on 3 dots
      */
@@ -66,9 +69,14 @@ public class PhotoFragment extends android.support.v4.app.Fragment {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
                     Toast.makeText(getActivity(), "Favorites", Toast.LENGTH_SHORT).show();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("photoId", getArguments().getString("photoId"));
+                    CommentListFragment fragment = CommentListFragment.newInstance(arguments);
+                    getActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.main_content, fragment).addToBackStack("tag").commit();
                     return true;
                 case R.id.action_play_next:
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getArguments().getString("photoId")));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getArguments().getString("photoUrl")));
                     startActivity(browserIntent);
                     return true;
                 default:

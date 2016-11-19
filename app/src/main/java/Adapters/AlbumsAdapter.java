@@ -1,10 +1,9 @@
-package info.androidhive.cardview;
+package Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,11 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Entities.Album;
+import info.androidhive.cardview.MainActivity;
+import info.androidhive.cardview.PhotoFragment;
+import info.androidhive.cardview.PhotoListFragment;
+import info.androidhive.cardview.R;
 
 /**
  * Created by Ravi Tamada on 18/05/16.
@@ -66,10 +70,15 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             @Override
             public void onClick(View view) {
                 Bundle arguments = new Bundle();
-                arguments.putString("photoId",album.getUrl());
+                /*arguments.putString("photoId",album.getUrl());
                 PhotoFragment fragment = PhotoFragment.newInstance(arguments);
                 ((MainActivity) mContext).getSupportFragmentManager().beginTransaction().
-                        replace(R.id.main_content, fragment).addToBackStack( "tag" ).commit();
+                        replace(R.id.main_content, fragment).addToBackStack( "tag" ).commit();*/
+
+                arguments.putString("albumId",album.getId());
+                PhotoListFragment fragment = PhotoListFragment.newInstance(arguments);
+                ((MainActivity) mContext).getSupportFragmentManager().beginTransaction().
+                        replace(R.id.main_content, fragment).addToBackStack("tag").commit();
                 }
         } );
         holder.overflow.setOnClickListener(new View.OnClickListener() {

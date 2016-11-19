@@ -1,4 +1,7 @@
-package info.androidhive.cardview;
+package Entities;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by Lincoln on 18/05/16.

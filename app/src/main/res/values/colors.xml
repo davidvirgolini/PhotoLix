@@ -5,4 +5,5 @@
     <color name="colorAccent">#ff0004</color>
     <color name="viewBg">#d6d0d0</color>
     <color name="album_title">#4c4c4c</color>
+    <color name="material_lightblue_900">#01579B</color>
 </resources>
