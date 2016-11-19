@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Photolix</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add_favourite">Add to Favourites</string>
+    <string name="action_play_next">Info</string>
+    <string name="backdrop_title">MY PHOTOS</string>
+    <string name="backdrop_subtitle">The best app ever</string>
+    <string name="back_message_cargando">Charging....</string>
+    <string name="photo_comments">Comments</string>
+</resources>
