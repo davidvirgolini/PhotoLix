@@ -13,7 +13,16 @@ public class Photo {
     private int farm;
     private String url;
     private String date;
+    private String albumTitle;
     private ArrayList<Comment> comments;
+
+    public String getAlbumTitle() {
+        return albumTitle;
+    }
+
+    public void setAlbumTitle(String albumTitle) {
+        this.albumTitle = albumTitle;
+    }
 
     public String getId() {
         return id;
@@ -74,4 +83,5 @@ public class Photo {
     public void setDate(String date) {
         this.date = date;
     }
+
 }
