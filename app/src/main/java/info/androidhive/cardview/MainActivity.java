@@ -2,20 +2,26 @@ package info.androidhive.cardview;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Album> arrayList;
     JSONObject jsonObject;
     JSONArray jsonArray;
+    ImageView optionSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initCollapsingToolbar();
+
+        optionSettings = (ImageView) findViewById(R.id.options_settings);
+        optionSettings.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showPopupMenu(optionSettings);
+            }
+        });
 
         if(isNetDisponible()){chargeView();}
         else{Toast.makeText(this,"SIN CONEXION", Toast.LENGTH_SHORT).show();}
@@ -160,19 +175,47 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createDirectoy(){
 
-        File f = new File("/Photolix/1");
-        // Comprobamos si la carpeta está ya creada
+        File file = new File(Environment.getExternalStorageDirectory(), "/Photolix");
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e("TravellerLog :: ", "Problem creating Image folder");
 
-        // Si la carpeta no está creada, la creamos.
-
-        if(!f.isDirectory()) {
-            String newFolder = "/Photolix/1"; ///Photolix es el nombre de la Carpeta que voy a crear
-            File myNewFolder = new File(newFolder);
-            myNewFolder.mkdir(); //creamos la carpeta
-        }else{
-            Log.d("MAAAALLL","La carpeta ya estaba creada");
+            }
         }
 
+
+    }
+
+    /**
+     * Showing popup menu when tapping on 3 dots
+     */
+    private void showPopupMenu(View view) {
+        // inflate menu
+        PopupMenu popup = new PopupMenu(this, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_main, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
+        popup.show();
+    }
+    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        public MyMenuItemClickListener() {
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.action_settings:
+                    Toast toast = Toast.makeText(MainActivity.this, "FUNCIONA", Toast.LENGTH_LONG);
+                    toast.show();
+                    return true;
+                case R.id.action_play_next:
+
+                    return true;
+                default:
+            }
+            return false;
+        }
     }
 
     /**
