@@ -65,7 +65,9 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        url =   "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=bdfeb595210d01c6ea35d53a44557f8e&photoset_id="+this.getArguments().getString("albumId")+"&user_id=145733563%40N08&format=json&nojsoncallback=1";
+        url =   "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key="+
+                MainActivity.API_KEY+"&photoset_id="+this.getArguments().getString("albumId")+
+                "&user_id="+MainActivity.USER_ID+"&format=json&nojsoncallback=1";
 
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET,

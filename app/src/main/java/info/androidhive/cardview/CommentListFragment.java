@@ -62,7 +62,8 @@ public class CommentListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        url =   "https://api.flickr.com/services/rest/?method=flickr.photos.comments.getList&api_key=f7d55bffd8b0ca3e7df8269a986d2d1d&photo_id="+this.getArguments().getString("photoId")+"+&format=json&nojsoncallback=1";
+        url = "https://api.flickr.com/services/rest/?method=flickr.photos.comments.getList&api_key=" +
+                MainActivity.API_KEY + "&photo_id="+getArguments().getString("photoId")+"+&format=json&nojsoncallback=1";
 
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET,

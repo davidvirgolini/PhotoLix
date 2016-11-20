@@ -35,32 +35,32 @@ import Entities.Album;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private AlbumsAdapter adapter;
-    static String URL_PHOTOSETS="https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=bdfeb595210d01c6ea35d53a44557f8e&user_id=145733563%40N08&format=json&nojsoncallback=1";
+    static String USER_ID = "145733563%40N08";
+    static String API_KEY = "1330cbb40909a4ae993cc5d9ca62ac4b";
     static String ID = "id";
     static String PRIMARY = "primary";
     static String SECRET = "secret";
     static String SERVER = "server";
     static String FARM = "farm";
     static String TITLE = "title";
-    static String ID_USUARIO = "145733563%40N08";
-    ArrayList<Album> arraylist;
+    private String urlPhotosets;
+    private RecyclerView recyclerView;
+    private AlbumsAdapter adapter;
+    ArrayList<Album> arrayList;
     JSONObject jsonObject;
     JSONArray jsonArray;
-    String url;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        arraylist = new ArrayList<>();
+        arrayList = new ArrayList<>();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initCollapsingToolbar();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        adapter = new AlbumsAdapter(MainActivity.this, arraylist);
+        adapter = new AlbumsAdapter(MainActivity.this, arrayList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(MainActivity.this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
@@ -68,30 +68,34 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         try {
-            Glide.with(MainActivity.this).load(R.drawable.cover).into((ImageView)findViewById(R.id.backdrop));
+            Glide.with(MainActivity.this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
         } catch (Exception e) {
             e.printStackTrace();
         }
-     }
+    }
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         JSONSetAlbum();
     }
 
-    private void JSONSetAlbum(){
+    private void JSONSetAlbum() {
+
+        urlPhotosets = "https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key="+API_KEY+"&user_id="+ USER_ID +"&format=json&nojsoncallback=1";
         //-------------
         // Retrieve JSON Objects from the given URL address
         RequestQueue requestQueue = Volley.newRequestQueue(this.getApplicationContext());
         Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("succes","Success Response: " + response.toString());
+                Log.d("succes", "Success Response: " + response.toString());
                 try {
                     jsonObject = response.getJSONObject("photosets");
                     jsonArray = jsonObject.getJSONArray("photoset");
 
                     for (int i = 0; i < jsonArray.length(); i++) {
+                        String url;
                         jsonObject = jsonArray.getJSONObject(i);
                         Album album = new Album();
                         // Retrive JSON Objects
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         String secret = jsonObject.getString(SECRET);
                         String server = jsonObject.getString(SERVER);
                         String farm = jsonObject.getString(FARM);
-                        String id =jsonObject.getString(ID);
+                        String id = jsonObject.getString(ID);
                         //build image url
                         url = "https://farm" + farm + ".staticflickr.com/" + server +
                                 "/" + primary + "_" + secret + ".jpg";
@@ -109,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         album.setId(id);
                         album.setPrimary(primary);
                         // Set the JSON Objects into the array
-                        arraylist.add(album);
+                        arrayList.add(album);
                     }
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse != null) {
-                    Log.d("Error","Error Response code: " +  error.networkResponse.statusCode);
+                    Log.d("Error", "Error Response code: " + error.networkResponse.statusCode);
 
                 }
             }
@@ -129,11 +133,11 @@ public class MainActivity extends AppCompatActivity {
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                URL_PHOTOSETS, null,
+                urlPhotosets, null,
                 listener,
                 errorListener);
         requestQueue.add(request);
-       //-------------
+        //-------------
     }
 
     /**
