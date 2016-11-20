@@ -6,4 +6,10 @@
     <color name="viewBg">#d6d0d0</color>
     <color name="album_title">#4c4c4c</color>
     <color name="material_lightblue_900">#01579B</color>
+    <color name="colorPrimary2">#125688</color>
+    <color name="colorPrimaryDark2">#125688</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent2">#c8e8ff</color>
 </resources>

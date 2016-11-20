@@ -15,20 +15,21 @@
         android:text="Preference Fragment" />
 
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/label"
-        android:checkedButton="@+id/rdbOne">
+        android:checkedButton="@+id/radio_button1">
 
         <RadioButton
-            android:id="@+id/rdbOne"
+            android:id="@+id/radio_button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5sp"
             android:text="Theme 1" />
 
         <RadioButton
-            android:id="@+id/rdbTwo"
+            android:id="@+id/radio_button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Theme 2" />
