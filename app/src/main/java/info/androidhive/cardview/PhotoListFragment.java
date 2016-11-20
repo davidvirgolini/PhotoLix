@@ -3,6 +3,7 @@ package info.androidhive.cardview;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import Adapters.PhotoListAdapter;
+import Entities.Album;
 import Entities.Photo;
 
 /**
@@ -50,7 +53,6 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
         View rootView = inflater.inflate(R.layout.fragment_photo_list, container, false);
 
         photos = new ArrayList<>();
-
         /*urlList.add("https://farm6.staticflickr.com/5578/30902247605_1e353319d0.jpg");
         urlList.add("https://farm6.staticflickr.com/5649/30814273391_0f845b302d.jpg");*/
 

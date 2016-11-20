@@ -2,8 +2,10 @@ package Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,12 +17,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import Entities.Album;
 import info.androidhive.cardview.MainActivity;
-import info.androidhive.cardview.PhotoFragment;
 import info.androidhive.cardview.PhotoListFragment;
 import info.androidhive.cardview.R;
 
@@ -31,6 +33,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
     private Context mContext;
     private List<Album> albumList;
+    static String PHOTOLIX_FILES_PATH="/Photolix";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
@@ -60,7 +63,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Album album = albumList.get(position);
         holder.title.setText(album.getTitle());
 
@@ -70,12 +73,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             @Override
             public void onClick(View view) {
                 Bundle arguments = new Bundle();
-                /*arguments.putString("photoId",album.getUrl());
-                PhotoFragment fragment = PhotoFragment.newInstance(arguments);
-                ((MainActivity) mContext).getSupportFragmentManager().beginTransaction().
-                        replace(R.id.main_content, fragment).addToBackStack( "tag" ).commit();*/
-
                 arguments.putString("albumId",album.getId());
+                arguments.putString("albumTitle",album.getTitle());
                 PhotoListFragment fragment = PhotoListFragment.newInstance(arguments);
                 ((MainActivity) mContext).getSupportFragmentManager().beginTransaction().
                         replace(R.id.main_content, fragment).addToBackStack("tag").commit();
@@ -88,6 +87,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             }
         });
     }
+
 
     /**
      * Showing popup menu when tapping on 3 dots

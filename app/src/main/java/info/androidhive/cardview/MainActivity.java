@@ -1,8 +1,11 @@
 package info.androidhive.cardview;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import Adapters.AlbumsAdapter;
@@ -50,25 +55,19 @@ public class MainActivity extends AppCompatActivity {
     JSONObject jsonObject;
     JSONArray jsonArray;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createDirectoy();
         setContentView(R.layout.activity_main);
-        arrayList = new ArrayList<>();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initCollapsingToolbar();
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        adapter = new AlbumsAdapter(MainActivity.this, arrayList);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(MainActivity.this, 2);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
 
+        if(isNetDisponible()){chargeView();}
+        else{Toast.makeText(this,"SIN CONEXION", Toast.LENGTH_SHORT).show();}
         try {
-            Glide.with(MainActivity.this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
+            Glide.with(MainActivity.this).load(R.drawable.cover).into((ImageView)findViewById(R.id.backdrop));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,6 +137,42 @@ public class MainActivity extends AppCompatActivity {
                 errorListener);
         requestQueue.add(request);
         //-------------
+    }
+    private boolean isNetDisponible() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo actNetInfo = connectivityManager.getActiveNetworkInfo();
+
+        return (actNetInfo != null && actNetInfo.isConnected());
+    }
+
+    public void chargeView(){
+        arrayList = new ArrayList<>();
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        adapter = new AlbumsAdapter(MainActivity.this, arrayList);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+    }
+    private void createDirectoy(){
+
+        File f = new File("/Photolix/1");
+        // Comprobamos si la carpeta está ya creada
+
+        // Si la carpeta no está creada, la creamos.
+
+        if(!f.isDirectory()) {
+            String newFolder = "/Photolix/1"; ///Photolix es el nombre de la Carpeta que voy a crear
+            File myNewFolder = new File(newFolder);
+            myNewFolder.mkdir(); //creamos la carpeta
+        }else{
+            Log.d("MAAAALLL","La carpeta ya estaba creada");
+        }
+
     }
 
     /**
