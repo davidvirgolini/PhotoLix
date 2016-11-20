@@ -2,12 +2,10 @@ package info.androidhive.cardview;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.AppBarLayout;
@@ -182,9 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-
-
-    }
+       }
 
     /**
      * Showing popup menu when tapping on 3 dots
