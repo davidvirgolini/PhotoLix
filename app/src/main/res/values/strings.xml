@@ -6,5 +6,7 @@
     <string name="backdrop_title">MY ALBUMS</string>
     <string name="backdrop_subtitle">The best app ever</string>
     <string name="back_message_cargando">Charging....</string>
-    <string name="photo_comments">Comments</string>
+    <string name="photo_comments">Options</string>
+    <string name="photo_menu_see_on_web">Web View</string>
+    <string name="photo_menu_comments">View Comments</string>
 </resources>

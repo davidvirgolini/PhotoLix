@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:numColumns="2"
         android:horizontalSpacing="2sp"
-        android:verticalSpacing="6sp"
+        android:verticalSpacing="2sp"
         android:background="#FFF"
         />
 

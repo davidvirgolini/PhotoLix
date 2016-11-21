@@ -57,7 +57,7 @@ public class PhotoFragment extends android.support.v4.app.Fragment {
         // inflate menu
         PopupMenu popup = new PopupMenu(getActivity(), view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_album, popup.getMenu());
+        inflater.inflate(R.menu.menu_photo, popup.getMenu());
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
         popup.show();
     }
@@ -71,7 +71,6 @@ public class PhotoFragment extends android.support.v4.app.Fragment {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(getActivity(), "Favorites", Toast.LENGTH_SHORT).show();
                     Bundle arguments = new Bundle();
                     arguments.putString("photoId", getArguments().getString("photoId"));
                     CommentListFragment fragment = CommentListFragment.newInstance(arguments);
