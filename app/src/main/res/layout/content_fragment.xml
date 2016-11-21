@@ -18,27 +18,31 @@
             <ImageView
                 android:id="@+id/single_photo_of_an_album"
                 android:layout_width="match_parent"
-                android:layout_height="550sp"
+                android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:scaleType="fitXY" />
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:layout_above="@+id/title"
+                />
+            <!--android:scaleType="fitXY"-->
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/single_photo_of_an_album"
+                android:layout_alignParentBottom="true"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingTop="@dimen/album_title_padding"
                 android:textColor="@color/album_title"
-                android:textSize="@dimen/album_title"
+                android:textSize="20sp"
                 android:text="@string/photo_comments"/>
 
             <ImageView
                 android:id="@+id/dots_fragment"
-                android:layout_width="@dimen/ic_album_overflow_width"
-                android:layout_height="@dimen/ic_album_overflow_height"
+                android:layout_width="@dimen/ic_album_overflow_width_single_image"
+                android:layout_height="@dimen/ic_album_overflow_height_principal_single_image"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/single_photo_of_an_album"
                 android:layout_marginTop="@dimen/ic_album_overflow_margin_top"

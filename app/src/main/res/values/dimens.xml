@@ -19,6 +19,8 @@
     <dimen name="ic_album_overflow_margin_top">10dp</dimen>
     <dimen name="ic_album_overflow_width_principal">50dp</dimen>
     <dimen name="ic_album_overflow_height_principal">60dp</dimen>
+    <dimen name="ic_album_overflow_width_single_image">60dp</dimen>
+    <dimen name="ic_album_overflow_height_principal_single_image">50dp</dimen>
     <dimen name="app_name_principal">16sp</dimen>
 
 </resources>
