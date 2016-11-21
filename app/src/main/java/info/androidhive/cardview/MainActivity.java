@@ -3,6 +3,7 @@ package info.androidhive.cardview;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createDirectoy();
-
         //preferences
         checkPreferences();
 

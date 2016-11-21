@@ -18,7 +18,7 @@
             <ImageView
                 android:id="@+id/single_photo_of_an_album"
                 android:layout_width="match_parent"
-                android:layout_height="610sp"
+                android:layout_height="550sp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:scaleType="fitXY" />

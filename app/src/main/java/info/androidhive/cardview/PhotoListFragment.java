@@ -43,8 +43,6 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
     PhotoListAdapter adapter;
     String url;
     Bitmap theBitmap;
-    ProgressDialog mProgressDialog;
-
     public static PhotoListFragment newInstance(Bundle arguments) {
         PhotoListFragment fragment = new PhotoListFragment();
         if (arguments != null) {
@@ -200,4 +198,5 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
         }
 
     }
+
 }
