@@ -66,17 +66,12 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
         gridView.setAdapter(adapter);
         createDirectoy();
 
-        return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
         if(getArguments().getString("albumId") != null)
-            JSONSetPhotos();
+            new MyAsyngTask().execute();
         else
             internalSetPhotos();
+
+        return rootView;
     }
 
     private void internalSetPhotos() {
@@ -89,6 +84,15 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
         }
         adapter.notifyDataSetChanged();
     }
+
+    private class MyAsyngTask extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... params) {
+            JSONSetPhotos();
+            return null;
+        }
+    }
+
 
     private void JSONSetPhotos() {
         url =   "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key="+
