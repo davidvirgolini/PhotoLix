@@ -9,4 +9,7 @@
     <string name="photo_comments">Options</string>
     <string name="photo_menu_see_on_web">Web View</string>
     <string name="photo_menu_comments">View Comments</string>
+    <string name="comments">Comments</string>
+    <string name="theme1">Red Theme</string>
+    <string name="theme2">Blue Theme</string>
 </resources>

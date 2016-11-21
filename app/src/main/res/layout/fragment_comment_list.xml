@@ -4,19 +4,25 @@
     android:layout_height="match_parent"
     android:background="#FFF"
     >
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/comments"
+        android:background="#FFF"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginBottom="5sp"
+        />
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF"
+        android:layout_below="@+id/label"
         />
 
-<!--    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@android:id/empty"
-        android:text="CARGANDO COMENTARIOS..."/>-->
 
 </RelativeLayout>
