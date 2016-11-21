@@ -1,5 +1,6 @@
 package info.androidhive.cardview;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -56,53 +57,55 @@ public class CommentListFragment extends Fragment {
         adapter = new CommentListAdapter(rootView.getContext(), comments);
         listView.setAdapter(adapter);
 
+        new MyAsyngTask().execute();
         return rootView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        url = "https://api.flickr.com/services/rest/?method=flickr.photos.comments.getList&api_key=" +
-                MainActivity.API_KEY + "&photo_id="+getArguments().getString("photoId")+"+&format=json&nojsoncallback=1";
+    private class MyAsyngTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            url = "https://api.flickr.com/services/rest/?method=flickr.photos.comments.getList&api_key=" +
+                    MainActivity.API_KEY + "&photo_id="+getArguments().getString("photoId")+"+&format=json&nojsoncallback=1";
 
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET,
-                        url,
-                        null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.GET,
+                            url,
+                            null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
 
-                        JSONObject jsonObject;
-                        JSONArray jsonArray;
-                        try {
-                            jsonObject = response.getJSONObject("comments");
-                            jsonArray = jsonObject.getJSONArray("comment");
+                            JSONObject jsonObject;
+                            JSONArray jsonArray;
+                            try {
+                                jsonObject = response.getJSONObject("comments");
+                                jsonArray = jsonObject.getJSONArray("comment");
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                Comment comment = new Comment();
-                                comment.setAuthor(jsonArray.getJSONObject(i).getString("authorname"));
-                                comment.setRealName(jsonArray.getJSONObject(i).getString("realname"));
-                                comment.setContent(jsonArray.getJSONObject(i).getString("_content"));
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    Comment comment = new Comment();
+                                    comment.setAuthor(jsonArray.getJSONObject(i).getString("authorname"));
+                                    comment.setRealName(jsonArray.getJSONObject(i).getString("realname"));
+                                    comment.setContent(jsonArray.getJSONObject(i).getString("_content"));
 
-                                comments.add(comment);
+                                    comments.add(comment);
+                                }
+                                adapter.notifyDataSetChanged();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            adapter.notifyDataSetChanged();
+                        }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            int a = 0;
                         }
                     }
+                    );
 
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        int a = 0;
-                    }
-                }
-                );
-
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(jsonObjectRequest);
-
+            RequestQueue queue = Volley.newRequestQueue(getActivity());
+            queue.add(jsonObjectRequest);
+            return null;
+        }
     }
 }

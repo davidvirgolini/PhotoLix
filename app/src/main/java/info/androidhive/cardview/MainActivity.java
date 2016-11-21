@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.AppBarLayout;
@@ -92,15 +93,11 @@ public class MainActivity extends AppCompatActivity {
         }*/
         chargeView();
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         if (isNetDisponible())
-            JSONSetAlbum();
+            new MyAsyngTask().execute();
         else
             internalSetAlbum();
+
     }
 
     private void internalSetAlbum() {
@@ -115,6 +112,13 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    private class MyAsyngTask extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... params) {
+            JSONSetAlbum();
+            return null;
+        }
+    }
     private void JSONSetAlbum() {
 
         urlPhotosets = "https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=" + API_KEY + "&user_id=" + USER_ID + "&format=json&nojsoncallback=1";
