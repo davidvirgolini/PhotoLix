@@ -2,6 +2,7 @@ package info.androidhive.cardview;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -64,37 +65,59 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createDirectoy();
+
+        //preferences
+        checkPreferences();
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initCollapsingToolbar();
 
         optionSettings = (ImageView) findViewById(R.id.options_settings);
-        optionSettings.setOnClickListener(new View.OnClickListener(){
+        optionSettings.setVisibility(View.INVISIBLE);
+        optionSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopupMenu(optionSettings);
             }
         });
 
-        if(isNetDisponible()){chargeView();}
+/*        if(isNetDisponible()){chargeView();}
         else{Toast.makeText(this,"SIN CONEXION", Toast.LENGTH_SHORT).show();}
         try {
             Glide.with(MainActivity.this).load(R.drawable.cover).into((ImageView)findViewById(R.id.backdrop));
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+        chargeView();
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        JSONSetAlbum();
+        if (isNetDisponible())
+            JSONSetAlbum();
+        else
+            internalSetAlbum();
+    }
+
+    private void internalSetAlbum() {
+        File file = Environment.getExternalStoragePublicDirectory("/Photolix");
+        File[] files = file.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            Album album = new Album();
+            album.setTitle(files[i].getName());
+            album.setPath("/Photolix/"+files[i].getName());
+            arrayList.add(album);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void JSONSetAlbum() {
 
-        urlPhotosets = "https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key="+API_KEY+"&user_id="+ USER_ID +"&format=json&nojsoncallback=1";
+        urlPhotosets = "https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=" + API_KEY + "&user_id=" + USER_ID + "&format=json&nojsoncallback=1";
         //-------------
         // Retrieve JSON Objects from the given URL address
         RequestQueue requestQueue = Volley.newRequestQueue(this.getApplicationContext());
@@ -151,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(request);
         //-------------
     }
+
     private boolean isNetDisponible() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
@@ -161,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
         return (actNetInfo != null && actNetInfo.isConnected());
     }
 
-    public void chargeView(){
+    public void chargeView() {
+        Glide.with(MainActivity.this).load(R.drawable.cover).into((ImageView)findViewById(R.id.backdrop));
         arrayList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         adapter = new AlbumsAdapter(MainActivity.this, arrayList);
@@ -171,16 +196,16 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
     }
-    private void createDirectoy(){
+
+    private void createDirectoy() {
 
         File file = new File(Environment.getExternalStorageDirectory(), "/Photolix");
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 Log.e("TravellerLog :: ", "Problem creating Image folder");
-
             }
         }
-       }
+    }
 
     /**
      * Showing popup menu when tapping on 3 dots
@@ -193,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
         popup.show();
     }
+
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
         public MyMenuItemClickListener() {
@@ -202,11 +228,12 @@ public class MainActivity extends AppCompatActivity {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_settings:
-                    Toast toast = Toast.makeText(MainActivity.this, "FUNCIONA", Toast.LENGTH_LONG);
-                    toast.show();
+                    PreferencesFragment fragment = new PreferencesFragment();
+                    getSupportFragmentManager().beginTransaction().
+                            replace(R.id.main_content, fragment).addToBackStack("tag").commit();
+
                     return true;
                 case R.id.action_play_next:
-
                     return true;
                 default:
             }
@@ -238,9 +265,12 @@ public class MainActivity extends AppCompatActivity {
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbar.setTitle(getString(R.string.app_name));
                     isShow = true;
+                    optionSettings.setVisibility(View.VISIBLE);
                 } else if (isShow) {
                     collapsingToolbar.setTitle(" ");
                     isShow = false;
+                    optionSettings.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
@@ -291,6 +321,20 @@ public class MainActivity extends AppCompatActivity {
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
+
+    private void checkPreferences() {
+        SharedPreferences prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        int theme = prefs.getInt("theme", 1);
+
+        switch (theme) {
+            case 1:
+                setTheme(R.style.MyMaterialTheme2);
+                break;
+            case 2:
+                setTheme(R.style.MyMaterialTheme);
+                break;
+        }
     }
 
 }

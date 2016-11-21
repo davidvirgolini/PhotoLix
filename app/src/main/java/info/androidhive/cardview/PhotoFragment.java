@@ -43,7 +43,10 @@ public class PhotoFragment extends android.support.v4.app.Fragment {
                 showPopupMenu(imageDots);
             }
         });
-        Glide.with(getActivity()).load(getArguments().getString("photoUrl")).into(imageView);
+        if (getArguments().getString("photoUrl") != null)
+            Glide.with(getActivity()).load(getArguments().getString("photoUrl")).into(imageView);
+        else
+            Glide.with(getActivity()).load(getArguments().getString("photoPath")).into(imageView);
         return rootView;
     }
 
@@ -76,8 +79,15 @@ public class PhotoFragment extends android.support.v4.app.Fragment {
                             replace(R.id.main_content, fragment).addToBackStack("tag").commit();
                     return true;
                 case R.id.action_play_next:
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getArguments().getString("photoUrl")));
-                    startActivity(browserIntent);
+                    Intent browserIntent;
+                    if (getArguments().getString("photoUrl") != null) {
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getArguments().getString("photoUrl")));
+                        startActivity(browserIntent);
+                    }
+                    else{
+                        Toast toast = Toast.makeText(getActivity(), "Cannot connect",Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                     return true;
                 default:
             }

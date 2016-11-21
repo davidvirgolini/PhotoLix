@@ -19,7 +19,8 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comentario"
+        android:background="#000"
+        android:textColor="#FFF"
         android:layout_below="@+id/author"/>
 
 

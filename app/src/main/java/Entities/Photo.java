@@ -15,6 +15,7 @@ public class Photo {
     private String date;
     private String albumTitle;
     private ArrayList<Comment> comments;
+    private String path;
 
     public String getAlbumTitle() {
         return albumTitle;
@@ -82,6 +83,14 @@ public class Photo {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getPath(){
+        return path;
+    }
+
+    public void setPath(String path){
+        this.path = path;
     }
 
 }

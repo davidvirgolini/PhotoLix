@@ -33,7 +33,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
     private Context mContext;
     private List<Album> albumList;
-    static String PHOTOLIX_FILES_PATH="/Photolix";
+    static String PHOTOLIX_FILES_PATH = "/Photolix";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
@@ -42,9 +42,9 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView)view.findViewById(R.id.title);
+            title = (TextView) view.findViewById(R.id.title);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            overflow=(ImageView) view.findViewById(R.id.overflow);
+            overflow = (ImageView) view.findViewById(R.id.overflow);
         }
     }
 
@@ -66,20 +66,24 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Album album = albumList.get(position);
         holder.title.setText(album.getTitle());
+        if (album.getUrl() == null) {
+            holder.thumbnail.setImageResource(R.drawable.cover);
+        } else
+            // loading album cover using Glide library
+            Glide.with(mContext).load(album.getUrl()).into(holder.thumbnail);
 
-        // loading album cover using Glide library
-        Glide.with(mContext).load(album.getUrl()).into(holder.thumbnail);
-        holder.thumbnail.setOnClickListener(new View.OnClickListener(){
+        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle arguments = new Bundle();
-                arguments.putString("albumId",album.getId());
-                arguments.putString("albumTitle",album.getTitle());
+                if (album.getId() != null)
+                    arguments.putString("albumId", album.getId());
+                arguments.putString("albumTitle", album.getTitle());
                 PhotoListFragment fragment = PhotoListFragment.newInstance(arguments);
                 ((MainActivity) mContext).getSupportFragmentManager().beginTransaction().
                         replace(R.id.main_content, fragment).addToBackStack("tag").commit();
-                }
-        } );
+            }
+        });
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

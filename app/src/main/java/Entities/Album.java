@@ -12,6 +12,16 @@ public class Album {
     private String id;
     private String primary;
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    private String path;
+
     public Album() {
     }
 

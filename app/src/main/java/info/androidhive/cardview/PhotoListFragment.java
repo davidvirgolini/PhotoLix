@@ -74,6 +74,25 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        if(getArguments().getString("albumId") != null)
+            JSONSetPhotos();
+        else
+            internalSetPhotos();
+    }
+
+    private void internalSetPhotos() {
+        File file = Environment.getExternalStoragePublicDirectory("/Photolix/"+getArguments().getString("albumTitle"));
+        File[] files = file.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            Photo photo = new Photo();
+            photo.setPath(files[i].getAbsolutePath());
+            photos.add(photo);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private void JSONSetPhotos() {
         url =   "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key="+
                 MainActivity.API_KEY+"&photoset_id="+this.getArguments().getString("albumId")+
                 "&user_id="+MainActivity.USER_ID+"&format=json&nojsoncallback=1";
@@ -119,8 +138,8 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         queue.add(jsonObjectRequest);
-
     }
+
     private void createDirectoy(){
 
         File file = new File(Environment.getExternalStorageDirectory(), "/Photolix/"+getArguments().getString("albumTitle"));
@@ -152,7 +171,7 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
                             into(100, 100). // Width and height
                             get();
                     String t = photos.get(i).getUrl();
-                    saveImage(theBitmap, photos.get(i).getId(), photos.get(i).getAlbumTitle());
+                    saveImage(theBitmap, photos.get(i).getId()+".jpeg", photos.get(i).getAlbumTitle());
 
                 } catch (Exception e) {
                     e.printStackTrace();

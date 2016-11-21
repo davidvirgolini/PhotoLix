@@ -46,7 +46,7 @@ public class PhotoListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-            return photos.size();
+        return photos.size();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class PhotoListAdapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
 
         View itemView = inflater.inflate(R.layout.photo_item, parent, false);
@@ -70,15 +70,24 @@ public class PhotoListAdapter extends BaseAdapter {
         result = photos.get(position);
 
         final ImageView photo;
-            photo = (ImageView) itemView.findViewById(R.id.photo);
+        photo = (ImageView) itemView.findViewById(R.id.photo);
 
-        Glide
-                .with(context)
-                .load(result.getUrl())
-                .centerCrop()
-                //.placeholder(R.drawable.loading_spinner)
-                .crossFade()
-                .into(photo);
+        if (result.getUrl() != null)
+            Glide
+                    .with(context)
+                    .load(result.getUrl())
+                    .centerCrop()
+                    //.placeholder(R.drawable.loading_spinner)
+                    .crossFade()
+                    .into(photo);
+        else
+            Glide
+                    .with(context)
+                    .load(result.getPath())
+                    .centerCrop()
+                    //.placeholder(R.drawable.loading_spinner)
+                    .crossFade()
+                    .into(photo);
 
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -86,10 +95,11 @@ public class PhotoListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Bundle arguments = new Bundle();
-                arguments.putString("photoId",photos.get(position).getId());
-                arguments.putString("photoUrl",photos.get(position).getUrl());
+                arguments.putString("photoId", photos.get(position).getId());
+                arguments.putString("photoUrl", photos.get(position).getUrl());
+                arguments.putString("photoPath",photos.get(position).getPath());
                 PhotoFragment fragment = PhotoFragment.newInstance(arguments);
-                ((MainActivity)context).getSupportFragmentManager().beginTransaction().
+                ((MainActivity) context).getSupportFragmentManager().beginTransaction().
                         replace(R.id.main_content, fragment).addToBackStack("tag").commit();
             }
         });
