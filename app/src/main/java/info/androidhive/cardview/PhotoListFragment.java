@@ -2,7 +2,6 @@ package info.androidhive.cardview;
 
 
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,7 +29,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import Adapters.PhotoListAdapter;
-import Entities.Album;
 import Entities.Photo;
 
 /**
@@ -67,7 +65,7 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
         createDirectoy();
 
         if(getArguments().getString("albumId") != null)
-            new MyAsyngTask().execute();
+            new MyAsyncTask().execute();
         else
             internalSetPhotos();
 
@@ -85,7 +83,7 @@ public class PhotoListFragment extends android.support.v4.app.Fragment {
         adapter.notifyDataSetChanged();
     }
 
-    private class MyAsyngTask extends AsyncTask<Void, Void, Void>{
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void>{
         @Override
         protected Void doInBackground(Void... params) {
             JSONSetPhotos();

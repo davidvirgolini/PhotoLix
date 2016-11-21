@@ -3,7 +3,6 @@ package info.androidhive.cardview;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -25,7 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -47,7 +45,7 @@ import Entities.Album;
 
 public class MainActivity extends AppCompatActivity {
 
-    static String USER_ID = "145733563%40N08";
+    static String USER_ID = "66107419%40N03";
     static String API_KEY = "1330cbb40909a4ae993cc5d9ca62ac4b";
     static String ID = "id";
     static String PRIMARY = "primary";
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         chargeView();
 
         if (isNetDisponible())
-            new MyAsyngTask().execute();
+            new MyAsyncTask().execute();
         else
             internalSetAlbum();
 
@@ -112,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private class MyAsyngTask extends AsyncTask<Void, Void, Void>{
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void>{
         @Override
         protected Void doInBackground(Void... params) {
             JSONSetAlbum();

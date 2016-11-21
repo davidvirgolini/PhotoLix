@@ -57,11 +57,11 @@ public class CommentListFragment extends Fragment {
         adapter = new CommentListAdapter(rootView.getContext(), comments);
         listView.setAdapter(adapter);
 
-        new MyAsyngTask().execute();
+        new MyAsyncTask().execute();
         return rootView;
     }
 
-    private class MyAsyngTask extends AsyncTask<Void, Void, Void> {
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             url = "https://api.flickr.com/services/rest/?method=flickr.photos.comments.getList&api_key=" +
