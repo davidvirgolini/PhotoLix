@@ -47,7 +47,7 @@
                 android:layout_below="@+id/single_photo_of_an_album"
                 android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_dots" />
+                android:src="@android:drawable/ic_menu_add" />
 
         </RelativeLayout>
 
